@@ -9,6 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import model.AccountRole;
 
 @WebFilter("/admin")
 public class AdminFilter implements Filter {
@@ -21,10 +27,14 @@ public class AdminFilter implements Filter {
 	public void doFilter(ServletRequest request, 
 			ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		// Lấy code của Request
-		String code = request.getParameter("code");
 		
-		if ("123456".equals(code)) { // Đúng code cho đi tiếp
+		HttpServletRequest req = (HttpServletRequest) request;
+		
+		// Lấy Role của Người đăng nhập
+		HttpSession session = req.getSession();
+		
+		// Kiểm tra có phải role Admin
+		if (session.getAttribute("role") == AccountRole.ADMIN) { 
 			chain.doFilter(request, response); // đi tiếp
 		} else { // Không đúng cho về
 			response.getWriter().append("Not Allowed!");

@@ -9,7 +9,7 @@
 <title>For User</title>
 </head>
 <body>
-	<h1>Danh sách sản phẩm</h1>
+	<h1>Danh sách sản phẩm</h1> <h3>${sessionScope.username}</h3>
 	<c:forEach items="${products}" var="product">
 		<p>${product.name} - ${product.price} VNĐ </p>
 	</c:forEach>
